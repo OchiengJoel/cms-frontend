@@ -1,0 +1,39 @@
+<form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+
+    <mat-card>
+        <div mat-dialog-title>
+            <h1>{{title}}</h1>
+        </div>
+
+        <mat-card-content>
+            <mat-form-field class="mat-50">
+                <mat-label>Account Code</mat-label>
+                <input matInput formControlName="code">
+            </mat-form-field>
+
+            <mat-form-field class="mat-50">
+                <mat-label>Account Type</mat-label>
+                <mat-select formControlName="accountType">
+                    <mat-option *ngFor="let accountType of typeList" [value]="accountType">{{ accountType }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Account Name</mat-label>
+                <input matInput formControlName="accountName">
+            </mat-form-field>
+
+        </mat-card-content>
+
+        <mat-card-footer>
+            <div style="margin:2%;text-align: right;">
+                <button mat-raised-button type="submit" color="primary">Save</button>
+                <button mat-raised-button color="warn" (click)="dialogRef.close(false)">Cancel</button>
+            </div>
+        </mat-card-footer>
+
+    </mat-card>
+
+</form>
+
+

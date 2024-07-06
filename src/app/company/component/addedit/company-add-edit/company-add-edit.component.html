@@ -1,0 +1,101 @@
+<mat-card>
+    <mat-card-header>
+      <h1 mat-dialog-title>{{ isEditMode ? 'Edit Company' : 'Add Company' }}</h1>
+    </mat-card-header>
+  </mat-card>
+  
+  <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+  
+    <mat-card-content>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Company Name</mat-label>
+        <input matInput formControlName="companyName">
+        <mat-error *ngIf="companyForm.get('companyName')?.invalid">{{ getErrorMessage('companyName') }}</mat-error>
+      </mat-form-field>
+  
+      <div formGroupName="address">
+  
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+          <mat-error *ngIf="companyForm.get('address')?.get('email')?.invalid">{{ getErrorMessage('email', 'address') }}</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Contact</mat-label>
+          <input matInput formControlName="contact">
+          <mat-error *ngIf="companyForm.get('address')?.get('contact')?.invalid">{{ getErrorMessage('contact', 'address') }}</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>Country</mat-label>
+          <input matInput formControlName="country">
+          <mat-error *ngIf="companyForm.get('address')?.get('country')?.invalid">{{ getErrorMessage('country', 'address') }}</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="fill" class="mat-50">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city">
+          <mat-error *ngIf="companyForm.get('address')?.get('city')?.invalid">{{ getErrorMessage('city', 'address') }}</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="mat-50" appearance="fill">
+          <mat-label>Registration Number</mat-label>
+          <input matInput formControlName="regNo">
+          <mat-error *ngIf="companyForm.get('address')?.get('regNo')?.invalid">{{ getErrorMessage('regNo', 'address') }}</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="mat-50" appearance="fill">
+          <mat-label>Postal Address</mat-label>
+          <input matInput formControlName="postalAddress">
+          <mat-error *ngIf="companyForm.get('address')?.get('postalAddress')?.invalid">{{ getErrorMessage('postalAddress', 'address') }}</mat-error>
+        </mat-form-field>
+  
+      </div>
+    </mat-card-content>
+  
+    <mat-card-footer style="margin:2%;text-align: right;">
+      <div style="margin:2%;text-align: right;">
+        <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'Update' : 'Save' }}</button>
+      </div>
+    </mat-card-footer>
+  
+  </form>
+  
+
+
+
+<!-- <mat-form-field>
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="companyName">
+            <mat-error *ngIf="companyForm.controls.companyName.hasError('required')">
+                Company name is required
+            </mat-error>            
+        </mat-form-field> -->
+
+        <!-- <mat-form-field>
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="companyName">
+            <mat-error *ngIf="companyForm.get('companyName')?.invalid && companyForm.get('companyName')?.touched">
+                Company name is required
+            </mat-error>
+        </mat-form-field> -->
+
+<!-- <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+                <mat-error *ngIf="companyForm.controls.email.hasError('required')">
+                    Email is required..
+                </mat-error>
+            </mat-form-field> -->
+
+            <!-- <mat-form-field class="mat-50">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+                <mat-error
+                    *ngIf="companyForm.get('address.email')?.invalid && companyForm.get('address.email')?.touched">
+                    Email is required..
+                </mat-error>
+            </mat-form-field> -->

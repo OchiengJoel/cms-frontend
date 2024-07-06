@@ -1,0 +1,51 @@
+<h1>{{title}} - {{data.accountName}}</h1>
+
+<table mat-table [dataSource]="ledgerData" class="mat-elevation-z8">
+
+  <!-- Recording Date Column -->
+  <ng-container matColumnDef="recordingDate">
+    <th mat-header-cell *matHeaderCellDef> Recording Date </th>
+    <td mat-cell *matCellDef="let element"> {{ element.recordingDate }} </td>
+  </ng-container>
+
+  <!-- Banking Date Column -->
+  <ng-container matColumnDef="bankingDate">
+    <th mat-header-cell *matHeaderCellDef> Banking Date </th>
+    <td mat-cell *matCellDef="let element"> {{ element.bankingDate }} </td>
+  </ng-container>
+
+  <!-- Transaction Number Column -->
+  <ng-container matColumnDef="transactionNumber">
+    <th mat-header-cell *matHeaderCellDef> Transaction Number </th>
+    <td mat-cell *matCellDef="let element"> {{ element.transactionNumber }} </td>
+  </ng-container>
+
+  <!-- Reference Number Column -->
+  <ng-container matColumnDef="referenceNumber">
+    <th mat-header-cell *matHeaderCellDef> Reference Number </th>
+    <td mat-cell *matCellDef="let element"> {{ element.referenceNumber }} </td>
+  </ng-container>
+
+  <!-- Debit Column -->
+  <ng-container matColumnDef="debit">
+    <th mat-header-cell *matHeaderCellDef> Debit </th>
+    <td mat-cell *matCellDef="let element"> {{ element.debit }} </td>
+  </ng-container>
+
+  <!-- Credit Column -->
+  <ng-container matColumnDef="credit">
+    <th mat-header-cell *matHeaderCellDef> Credit </th>
+    <td mat-cell *matCellDef="let element"> {{ element.credit }} </td>
+  </ng-container>
+
+  <!-- Running Balance Column -->
+  <ng-container matColumnDef="runningBalance">
+    <th mat-header-cell *matHeaderCellDef> Running Balance </th>
+    <td mat-cell *matCellDef="let element"> {{ element.runningBalance }} </td>
+  </ng-container>
+
+  <!-- Row definition -->
+  <tr mat-header-row *matHeaderRowDef="ledgerColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: ledgerColumns;"></tr>
+</table>
+

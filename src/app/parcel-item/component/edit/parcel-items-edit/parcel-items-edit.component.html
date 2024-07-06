@@ -1,0 +1,41 @@
+<!-- <h2 mat-dialog-title>
+    {{title}}
+</h2>
+
+<h2 mat-dialog-title>Edit Parcel Item</h2>
+<mat-dialog-content>
+  <form [formGroup]="parcelItemForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Item Type</mat-label>
+      <mat-select formControlName="itemType">
+        <mat-option value="GOODS">Goods</mat-option>
+        <mat-option value="SERVICES">Services</mat-option>
+      </mat-select>
+      <mat-error *ngIf="parcelItemForm.get('itemType')?.hasError('required')">
+        Item Type is required
+      </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Item Name</mat-label>
+      <input matInput formControlName="itemName">
+      <mat-error *ngIf="parcelItemForm.get('itemName')?.hasError('required')">
+        Item Name is required
+      </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Item Description</mat-label>
+      <input matInput formControlName="itemDescription">
+      <mat-error *ngIf="parcelItemForm.get('itemDescription')?.hasError('required')">
+        Item Description is required
+      </mat-error>
+    </mat-form-field>
+    
+    <mat-dialog-actions>
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+      <button mat-button type="submit" color="primary">Save</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>
+ -->

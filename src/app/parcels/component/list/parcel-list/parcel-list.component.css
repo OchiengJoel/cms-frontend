@@ -1,0 +1,29 @@
+mat-card{
+    margin: 2%;
+}
+
+.mat-50{
+  width: 18%;
+  margin: 1%;
+}
+
+.mat-25{
+  width: 8%;
+  margin: 1%;
+}
+th {
+    background-color: black !important;
+    color: white;
+  }
+
+  .spacer{
+    flex: 1 1 auto;
+  }
+
+  button{
+    margin: 3px;
+  }
+
+  .double-underline {
+    border-bottom: 3px double black; /* Adjust thickness and color as needed */
+}

@@ -1,0 +1,37 @@
+<mat-card>
+    <mat-card-header>
+      <h1 mat-dialog-title>{{ isEditMode ? 'Edit Weight Band' : 'Add Weight Band' }}</h1>
+    </mat-card-header>
+  </mat-card>
+  
+  <form [formGroup]="weightBandForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Min. Weight</mat-label>
+        <input matInput formControlName="minWeight">
+        <mat-error *ngIf="weightBandForm.get('minWeight')?.invalid">{{ getErrorMessage('minWeight') }}</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Max. Weight</mat-label>
+        <input matInput formControlName="maxWeight">
+        <mat-error *ngIf="weightBandForm.get('maxWeight')?.invalid">{{ getErrorMessage('maxWeight') }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Cost</mat-label>
+        <input matInput formControlName="cost">
+        <mat-error *ngIf="weightBandForm.get('cost')?.invalid">{{ getErrorMessage('cost') }}</mat-error>
+      </mat-form-field>
+  
+      
+    </mat-card-content>
+  
+    <mat-card-footer style="margin:2%;text-align: right;">
+      <div style="margin:2%;text-align: right;">
+        <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'Update' : 'Save' }}</button>
+      </div>
+    </mat-card-footer>
+  </form>
+  

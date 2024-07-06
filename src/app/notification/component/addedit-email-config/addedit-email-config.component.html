@@ -1,0 +1,41 @@
+<mat-card>
+    <mat-card-header>
+      <h1 mat-dialog-title>{{ isEditMode ? 'Edit Branch' : 'Add Branch' }}</h1>
+    </mat-card-header>
+  </mat-card>
+  
+  <form [formGroup]="emailSettingsForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Host</mat-label>
+        <input matInput formControlName="host">
+        <mat-error *ngIf="emailSettingsForm.get('host')?.invalid">{{ getErrorMessage('host') }}</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Port</mat-label>
+        <input matInput formControlName="port">
+        <mat-error *ngIf="emailSettingsForm.get('port')?.invalid">{{ getErrorMessage('port') }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+        <mat-error *ngIf="emailSettingsForm.get('username')?.invalid">{{ getErrorMessage('username') }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password">
+        <mat-error *ngIf="emailSettingsForm.get('password')?.invalid">{{ getErrorMessage('password') }}</mat-error>
+      </mat-form-field>
+  
+    </mat-card-content>
+  
+    <mat-card-footer style="margin:2%;text-align: right;">
+      <div style="margin:2%;text-align: right;">
+        <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'Update' : 'Save' }}</button>
+      </div>
+    </mat-card-footer>
+  </form>

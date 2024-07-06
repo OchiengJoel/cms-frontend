@@ -1,0 +1,51 @@
+<mat-card>
+  <mat-card-header>
+    <h1 mat-dialog-title>{{ isEditMode ? 'Edit Branch' : 'Add Branch' }}</h1>
+  </mat-card-header>
+</mat-card>
+
+<form [formGroup]="branchForm" (ngSubmit)="onSubmit()">
+  <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Branch Code</mat-label>
+      <input matInput formControlName="branchCode">
+      <mat-error *ngIf="branchForm.get('branchCode')?.invalid">{{ getErrorMessage('branchCode') }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Branch Name</mat-label>
+      <input matInput formControlName="branchName">
+      <mat-error *ngIf="branchForm.get('branchName')?.invalid">{{ getErrorMessage('branchName') }}</mat-error>
+    </mat-form-field>
+
+    <div formGroupName="address">
+      <mat-form-field appearance="fill" class="mat-50">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+        <mat-error *ngIf="branchForm.get('address')?.get('email')?.invalid">{{ getErrorMessage('email', 'address')
+          }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="mat-50">
+        <mat-label>Contact</mat-label>
+        <input matInput formControlName="contact">
+        <mat-error *ngIf="branchForm.get('address')?.get('contact')?.invalid">{{ getErrorMessage('contact', 'address')
+          }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="mat-50">
+        <mat-label>Location</mat-label>
+        <input matInput formControlName="location">
+        <mat-error *ngIf="branchForm.get('address')?.get('location')?.invalid">{{ getErrorMessage('location', 'address')
+          }}</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer style="margin:2%;text-align: right;">
+    <div style="margin:2%;text-align: right;">
+      <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'Update' : 'Save' }}</button>
+    </div>
+  </mat-card-footer>
+</form>

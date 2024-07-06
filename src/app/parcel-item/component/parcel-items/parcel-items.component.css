@@ -1,0 +1,16 @@
+mat-card {
+    margin: 2%;
+  }
+  
+  button {
+    margin: 3px;
+  }
+  
+  th {
+    background-color: black !important;
+    color: white;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }

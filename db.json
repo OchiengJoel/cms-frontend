@@ -1,0 +1,95 @@
+{
+  "category": [
+    {
+      "id": 1,
+      "code": 1001,
+      "brand": "Samsung",
+      "name": "Galaxy",
+      "status": "Available"
+    },
+    {
+      "id": 2,
+      "code": 2001,
+      "brand": "Apple",
+      "name": "Iphone",
+      "status": "Out of Stock"
+    },
+    {
+      "id": 3,
+      "code": 3001,
+      "brand": "Fuego",
+      "name": "Teken",
+      "status": "Available"
+    },
+    {
+      "id": 4,
+      "code": 4001,
+      "brand": "Nokia",
+      "name": "Lumia",
+      "status": "Out of Stock"
+    },
+    {
+      "id": 5,
+      "code": 5001,
+      "brand": "Fuego",
+      "name": "Taro",
+      "status": "Available"
+    },
+    {
+      "id": 6,
+      "code": 6001,
+      "brand": "Samsung",
+      "name": "Galaxy",
+      "status": "Available"
+    },
+    {
+      "id": 7,
+      "code": 7001,
+      "brand": "Apple",
+      "name": "Iphone",
+      "status": "Out of Stock"
+    },
+    {
+      "id": 8,
+      "code": 8001,
+      "brand": "Fuego",
+      "name": "Teken",
+      "status": "Available"
+    },
+    {
+      "id": 9,
+      "code": 9001,
+      "brand": "Nokia",
+      "name": "Lumia",
+      "status": "Out of Stock"
+    },
+    {
+      "id": 10,
+      "code": 5002,
+      "brand": "Fuego",
+      "name": "Taro",
+      "status": "Available"
+    },
+    {
+      "code": "hff",
+      "brand": "tt",
+      "name": "rer",
+      "status": "Available",
+      "id": 11
+    },
+    {
+      "code": "4434343",
+      "brand": "ddew",
+      "name": "dewew",
+      "status": "Available",
+      "id": 12
+    },
+    {
+      "code": "xxzxcv",
+      "brand": "ewe",
+      "name": "werw",
+      "status": "Available",
+      "id": 13
+    }
+  ]
+}

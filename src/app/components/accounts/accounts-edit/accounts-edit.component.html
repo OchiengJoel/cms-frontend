@@ -1,0 +1,35 @@
+<h1>Edit Account</h1>
+
+<form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-content>      
+
+      <mat-form-field>
+        <input matInput formControlName="accountName" placeholder="Account Name">
+        <mat-error *ngIf="accountForm.get('accountName')?.hasError('required')">Account Name is required</mat-error>
+      </mat-form-field>
+
+      <!-- <mat-form-field>
+        <input matInput formControlName="accountType" placeholder="Account Type">
+        <mat-error *ngIf="accountForm.get('accountType')?.hasError('required')">Account Type is required</mat-error>
+      </mat-form-field> -->
+
+      <mat-form-field>
+        <mat-select formControlName="accountType" placeholder="Account Type">
+            <mat-option *ngFor="let type of accountTypes" [value]="type">{{ type }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="accountForm.get('accountType')?.hasError('required')">Account Type is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput formControlName="code" placeholder="Code">
+        <mat-error *ngIf="accountForm.get('code')?.hasError('required')">Code is required</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!accountForm.valid">Save</button>
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
