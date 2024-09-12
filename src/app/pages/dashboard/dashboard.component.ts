@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Company } from 'src/app/company/model/company';
 import { CompanyService } from 'src/app/company/service/company.service';
 
@@ -13,6 +14,9 @@ export class DashboardComponent implements OnInit {
   companies: Company[] = [];
   selectedCompanyId: number | null = null;
   errorMessage: string = ''; // Ensure 'errorMessage' is declared
+  private openSubMenu: string = '';
+  @ViewChild('drawer') drawer!: MatSidenav;
+  
 
   constructor(
     private companyService:CompanyService
@@ -41,7 +45,6 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-
 
   selectCompany(companyId: number): void {
     this.companyService.switchCompany(companyId);
@@ -76,36 +79,28 @@ export class DashboardComponent implements OnInit {
     // this.companyService.getBranches(companyId).subscribe(...);
     // this.companyService.getWeightBands(companyId).subscribe(...);
     // this.companyService.getParcels(companyId).subscribe(...);
-  }
-
-
-  // fetchCompanies(): void {
-  //   this.companyService.getCompanies().subscribe(companies => {
-  //     this.companies = companies;
-  //   });
-    
-  // }
-
- 
+  } 
 
   subMenuState: { [key: string]: boolean } = {
     menu1: false,
     menu2: false
   };
 
-  toggleSubMenu(menu: string) {
-    this.subMenuState[menu] = !this.subMenuState[menu];
-  }
-
-  isSubMenuOpen(menu: string) {
-    return this.subMenuState[menu];
-  }
-
   toggleDrawer() {
-    // Add your logic to toggle the drawer here
-    // Example: this.drawer.toggle();
+    this.drawer.toggle();
   }
 
-  
+  isSubMenuOpen(subMenu: string): boolean {
+    return this.openSubMenu === subMenu;
+  }
+
+  toggleSubMenu(subMenu: string) {
+    this.openSubMenu = this.openSubMenu === subMenu ? '' : subMenu;
+  }
+
+  private handleError(message: string, error: any): void {
+    this.errorMessage = `${message}: ${error}`;
+    console.error(this.errorMessage);
+  }
 
 }

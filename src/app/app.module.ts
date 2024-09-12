@@ -55,6 +55,11 @@ import { ListSmsConfigComponent } from './notification/component/list-sms-config
 import { AddeditSmsConfigComponent } from './notification/component/addedit-sms-config/addedit-sms-config.component';
 import { AddeditEmailConfigComponent } from './notification/component/addedit-email-config/addedit-email-config.component';
 import { RouterModule } from '@angular/router';
+import { ProjectListComponent } from './pms/project/component/project-list/project-list.component';
+import { TaskListComponent } from './pms/task/component/task-list/task-list.component';
+import { TaskAddeditComponent } from './pms/task/component/task-addedit/task-addedit.component';
+import { ProjectAddeditComponent } from './pms/project/component/project-addedit/project-addedit.component';
+
 
 
 @NgModule({
@@ -86,7 +91,11 @@ import { RouterModule } from '@angular/router';
     ListEmailConfigComponent,
     ListSmsConfigComponent,
     AddeditSmsConfigComponent,
-    AddeditEmailConfigComponent
+    AddeditEmailConfigComponent,
+    ProjectListComponent,
+    TaskListComponent,
+    TaskAddeditComponent,
+    ProjectAddeditComponent,
    
     
   ],

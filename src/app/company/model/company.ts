@@ -10,6 +10,8 @@ export interface Company {
   weightBands?: WeightBand[];
 }
 
+
+
 export interface Address {
   email: string;
   contact: string;

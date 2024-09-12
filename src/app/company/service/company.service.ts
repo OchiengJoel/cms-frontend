@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 import { Company } from '../model/company';
 
 @Injectable({
@@ -24,8 +24,15 @@ export class CompanyService {
     this.selectedCompanyId = new BehaviorSubject<number | null>(storedCompanyId ? +storedCompanyId : null);  
    }
 
-   getCompanies(): Observable<Company[]> {
+  //  getCompanies(): Observable<Company[]> {
+  //   return this.http.get<Company[]>(`${this.baseUrl}/list`).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  getCompanies(): Observable<Company[]> {
     return this.http.get<Company[]>(`${this.baseUrl}/list`).pipe(
+      tap(data => console.log('Companies fetched from service:', data)), // Add this line
       catchError(this.handleError)
     );
   }
@@ -72,11 +79,12 @@ export class CompanyService {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
       // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `Client-side Error: ${error.error.message}`;
     } else {
       // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Server-side Error: Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    console.error(errorMessage); // Log error message to console for debugging
     return throwError(errorMessage);
   }
 

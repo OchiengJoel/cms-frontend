@@ -1,0 +1,72 @@
+mat-card{
+    margin: 2%;
+}
+
+mat-card-header{
+    margin-bottom: -3%;
+}
+
+mat-card-content{
+    margin-top: 1%;
+}
+
+.mat-50{
+  width: 18%;
+  margin: 1%;
+}
+
+.mat-25{
+  width: 8%;
+  margin: 1%;
+}
+
+.mat-10 {
+    height: 68px; /* Adjust to your preferred height */
+    width: 150px; /* Adjust to your preferred width */
+    margin: 8px; /* Adjust margin if needed */
+  }
+  
+  .mat-form-field .mat-form-field-infix {
+    padding: 0;
+  }
+  
+  .mat-form-field .mat-form-field-flex {
+    height: 100%;
+  }
+  
+  .mat-form-field .mat-form-field-outline {
+    height: 100%;
+  }
+
+  .mat-form-field {
+    font-size: 10px; /* Adjust font size */
+  }
+  
+  .mat-form-field input.mat-input-element {
+    font-size: 9px; /* Adjust font size of input text */
+  }
+  
+  .mat-form-field .mat-form-field-label {
+    font-size: 12px; /* Adjust font size of the label */
+  }
+  
+  .mat-form-field .mat-datepicker-toggle {
+    font-size: 12px; /* Adjust font size of the toggle button */
+  }
+
+th {
+    background-color: black !important;
+    color: white;
+  }
+
+  .spacer{
+    flex: 1 1 auto;
+  }
+
+  button{
+    margin: 3px;
+  }
+
+  .double-underline {
+    border-bottom: 3px double black; /* Adjust thickness and color as needed */
+}

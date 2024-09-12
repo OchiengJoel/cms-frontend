@@ -10,6 +10,8 @@ import { BranchListComponent } from './branch/component/list/branch-list/branch-
 import { WeightbandListComponent } from './weightband/component/list/weightband-list/weightband-list.component';
 import { ParcelListComponent } from './parcels/component/list/parcel-list/parcel-list.component';
 import { ListEmailConfigComponent } from './notification/component/list-email-config/list-email-config.component';
+import { ProjectListComponent } from './pms/project/component/project-list/project-list.component';
+import { TaskListComponent } from './pms/task/component/task-list/task-list.component';
 
 const routes: Routes = [
 
@@ -50,6 +52,14 @@ const routes: Routes = [
 
       {
         path:'notifications', component: ListEmailConfigComponent
+      },
+
+      {
+        path:'projects', component: ProjectListComponent
+      },
+
+      {
+        path:'tasks', component: TaskListComponent
       }
     ]
   },

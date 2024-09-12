@@ -21,7 +21,8 @@
 
 <mat-drawer-container autosize>
   <!-- <mat-drawer #drawer opened="true" mode="side" class="sidebar"> -->
-  <mat-drawer #drawer opened="true" mode="side" class="sidebar" (mouseover)="drawer.open()">
+  <!-- <mat-drawer #drawer opened="true" mode="side" class="sidebar" (mouseover)="drawer.open()" (mouseleave)="drawer.close()"> -->
+    <mat-drawer [@drawerState]="drawerState" class="drawer">
     <mat-accordion>
 
       <mat-expansion-panel>
@@ -65,7 +66,7 @@
           </mat-expansion-panel>
 
         </mat-nav-list>
-      </mat-expansion-panel>
+      </mat-expansion-panel>  
 
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -86,10 +87,10 @@
 
           <mat-list-item routerLink="weightbands">
             <mat-icon>analytics</mat-icon> Weight Bands
-          </mat-list-item>
+          </mat-list-item>       
 
         </mat-nav-list>
-      </mat-expansion-panel>
+      </mat-expansion-panel>  
 
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -191,8 +192,37 @@
         </mat-expansion-panel-header>
         <mat-nav-list>
           <mat-list-item routerLink="companies">Companies</mat-list-item>
+          <!-- <mat-list-item>
+            <button mat-button *ngFor="let company of companies" (click)="switchCompany(company.id)">
+              {{ company.companyName }}
+            </button>
+          </mat-list-item> -->     
+          
+        </mat-nav-list>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>menu</mat-icon>
+            Company Setup
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <mat-list-item routerLink="companies">Companies</mat-list-item>
           <mat-divider></mat-divider>
-          <br>
+          <!-- <mat-form-field>
+            <mat-label>
+              <h3><b>Switch Company</b></h3>
+            </mat-label>
+            
+            <mat-select (selectionChange)="switchCompany($event.value)" placeholder="Select Company">
+              <mat-option *ngFor="let company of companies" [value]="company.id">
+                {{ company.companyName }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Select a company from the dropdown to switch</mat-hint>
+          </mat-form-field> -->
 
           <mat-form-field>
             <mat-label><b>Select Company</b></mat-label>
@@ -201,13 +231,22 @@
             </mat-select>
           </mat-form-field>
 
+          <mat-form-field>
+            <mat-label><b>Select Company</b></mat-label>
+            <mat-select [(value)]="selectedCompanyId" (selectionChange)="switchCompany($event.value)">
+              <mat-option *ngFor="let company of companies" [value]="company.id">
+                {{ company.companyName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <mat-list-item routerLink="notifications">
             <mat-icon>analytics</mat-icon> Email Configs
-          </mat-list-item>
-
+          </mat-list-item>    
+          
         </mat-nav-list>
       </mat-expansion-panel>
-
+      
 
       <!-- Add more expansion panels as needed -->
     </mat-accordion>
@@ -218,89 +257,3 @@
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
-
-
-<!-- <mat-toolbar color="primary">
-    <mat-toolbar-row>
-        <button (click)="drawer.toggle()" mat-icon-button >
-            <mat-icon>menu</mat-icon>
-        </button>
-
-        <h1>E-Tech Inventory</h1>
-
-        <span class="fill-remaining-space"></span>
-
-        <button mat-icon-button>
-            <mat-icon>account_circle</mat-icon>
-        </button>
-        
-    </mat-toolbar-row>
-</mat-toolbar>
-
-<mat-drawer-container autosize>
-    <mat-drawer #drawer opened="true" mode="side">
-        
-        <mat-nav-list>
-            <br><br>
-            <mat-list-item>
-                <button routerLink="itemcategory" mat-button><mat-icon>category</mat-icon>Item Category</button>
-            </mat-list-item>
-
-            <mat-list-item>
-                <button mat-button><mat-icon>list</mat-icon>Item Catalog</button>
-            </mat-list-item>
-            <mat-list-item>
-                <button mat-button><mat-icon>business</mat-icon>Suppliers</button>
-            </mat-list-item>
-            <mat-list-item>
-                <button mat-button><mat-icon>person</mat-icon>Customers</button>
-            </mat-list-item>
-            <mat-list-item>
-                <button mat-button><mat-icon>shopping_cart</mat-icon>Orders</button>
-            </mat-list-item>
-            <mat-list-item>
-                <button mat-button><mat-icon>analytics</mat-icon>Analytics</button>
-            </mat-list-item>
-            <mat-list-item>
-                <button mat-button><mat-icon>description</mat-icon>Report</button>
-            </mat-list-item>
-            <mat-list-item>
-                <button mat-button><mat-icon>exit_to_app</mat-icon>Logout</button>
-            </mat-list-item>
-        </mat-nav-list>
-    
-
-
-    </mat-drawer>
-    <mat-drawer-content>
-        <div style="height: 100vh; text-align: center;">
-        
-            <router-outlet></router-outlet>
-
-        </div>
-        
-    </mat-drawer-content>
-
-</mat-drawer-container> -->
-
-<!-- 
-    *********************************************************************************************************
-    <mat-sidenav-container>
-    <mat-sidenav #sidenav opened="true" mode="side">
-        <mat-nav-list>
-            <a mat-list-item>Item Category</a>
-            <a mat-list-item> Item Catalog</a>
-            <a mat-list-item> Suppliers</a>
-            <a mat-list-item> Customers</a>
-            <a mat-list-item> Orders</a>
-            <a mat-list-item> Reports</a>
-            <a mat-list-item> Analytics</a>
-            <a mat-list-item> Logout</a>
-        </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <div style="height: 200vh;">
-            
-        </div>
-    </mat-sidenav-content>
-</mat-sidenav-container> -->
