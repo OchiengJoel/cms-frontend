@@ -1,0 +1,113 @@
+/* Task List Container */
+.task-list-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .task-list-container h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  h1{
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+
+  }
+
+  .double-underline {
+    border-bottom: 3px double black; /* Adjust thickness and color as needed */
+}
+  
+  /* Add Task Button */
+  .add-task-button {
+    margin-bottom: 20px;
+  }
+  
+  .add-task-button button {
+    font-size: 14px;
+  }
+  
+  /* Project Section Styling */
+  .project-section {
+    margin-bottom: 30px;
+    padding: 10px;
+    background-color: #fff;
+    border-left: 5px solid #3f51b5;
+    border-radius: 6px;
+  }
+  
+  .project-section h3 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #3f51b5;
+    margin-bottom: 10px;
+  }
+  
+  /* Task Table Styling */
+  .task-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+  }
+  
+  .task-table th {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .task-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Task Row Hover Effect */
+  .task-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Action Buttons */
+  .task-table button {
+    color: #616161;
+  }
+  
+  .task-table button:hover {
+    color: #f44336; /* Changes color on hover */
+  }
+  
+  /* Mat-Icon Styling */
+  .mat-icon-button {
+    margin-left: 5px;
+  }
+  
+  .mat-icon {
+    font-size: 18px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .task-list-container {
+      padding: 10px;
+    }
+  
+    .task-table th,
+    .task-table td {
+      padding: 5px;
+    }
+  
+    .add-task-button button {
+      font-size: 12px;
+    }
+  
+    .project-section h3 {
+      font-size: 18px;
+    }
+  }
+  

@@ -1,363 +1,68 @@
-<!-- <mat-table [dataSource]="projectsWithTasks" class="mat-elevation-z8">
-    <!-- Project Row -->
-<!-- <ng-container matColumnDef="projectName">
-      <mat-header-cell *matHeaderCellDef> Project Name </mat-header-cell>
-      <mat-cell *matCellDef="let projectWithTasks"> 
-        <button mat-button (click)="toggleProjectTasks(projectWithTasks.project)">
-          {{ projectWithTasks.project.name }}
-        </button>
-      </mat-cell>
-    </ng-container> -->
-
-<!-- Task Rows under Projects -->
-<!-- <ng-container matColumnDef="taskName">
-      <mat-header-cell *matHeaderCellDef> Task Name </mat-header-cell>
-      <mat-cell *matCellDef="let task"> {{ task.name }} </mat-cell>
-    </ng-container> -->
-
-<!-- Due Date Column -->
-<!-- <ng-container matColumnDef="dueDate">
-      <mat-header-cell *matHeaderCellDef> Due Date </mat-header-cell>
-      <mat-cell *matCellDef="let task"> {{ task.dueDate | date }} </mat-cell>
-    </ng-container> -->
-
-<!-- Status Column -->
-<!-- <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-      <mat-cell *matCellDef="let task"> {{ task.status }} </mat-cell>
-    </ng-container> -->
-
-<!-- Expandable Rows for Tasks -->
-<!-- <mat-header-row *matHeaderRowDef="['projectName']"></mat-header-row>
-    <mat-row *matRowDef="let projectWithTasks; columns: ['projectName'];"></mat-row> --> -->
-
-<!-- Tasks under each project -->
-<!-- <ng-container *ngIf="expandedProject === projectWithTasks.project">
-      <mat-row *matRowDef="let task; columns: taskColumns;"></mat-row>
-      <mat-header-row *matHeaderRowDef="taskColumns"></mat-header-row>
-    </ng-container> -->
-<!-- </mat-table> -->
-
-
-
-<!-- <mat-card>
-    <mat-card-content>
-      <div *ngFor="let project of projects">
-          <h3>{{ project.name }} ({{ project.tasks.length }} tasks)</h3>
-        
-          <ul>
-            <li *ngFor="let task of project.tasks">
-              Task ID: {{ task.id }} - {{ task.name }} - Status: {{ task.status }}
-            </li>
-          </ul>
-        </div>
-      
-      </mat-card-content>
-  </mat-card> -->
-
-
-<!-- <mat-table [dataSource]="projects" class="mat-elevation-z8"> -->
-<!-- Project Name Column -->
-<!-- <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Project Name </mat-header-cell>
-      <mat-cell *matCellDef="let project">
-        {{ project.name }} ({{ project.tasks?.length || 0 }} tasks)
-      </mat-cell>
-    </ng-container> -->
-
-<!-- Expandable Row for Tasks -->
-<!-- <ng-container matColumnDef="expand">
-      <mat-header-cell *matHeaderCellDef> Tasks </mat-header-cell>
-      <mat-cell *matCellDef="let project">
-        <mat-table [dataSource]="project.tasks || []" class="mat-elevation-z1" *ngIf="project.tasks?.length > 0"> -->
-<!-- Task ID Column -->
-<!-- <ng-container matColumnDef="taskId">
-            <mat-header-cell *matHeaderCellDef> Task ID </mat-header-cell>
-            <mat-cell *matCellDef="let task"> {{ task.id }} </mat-cell>
-          </ng-container> -->
-
-<!-- Task Name Column -->
-<!-- <ng-container matColumnDef="taskName">
-            <mat-header-cell *matHeaderCellDef> Task Name </mat-header-cell>
-            <mat-cell *matCellDef="let task"> {{ task.name }} </mat-cell>
-          </ng-container> -->
-
-<!-- Task Status Column -->
-<!-- <ng-container matColumnDef="taskStatus">
-            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-            <mat-cell *matCellDef="let task"> {{ task.status }} </mat-cell>
-          </ng-container> -->
-
-<!-- Task Table Header -->
-<!-- <mat-header-row *matHeaderRowDef="taskDisplayedColumns"></mat-header-row> -->
-<!-- Task Table Row -->
-<!-- <mat-row *matRowDef="let row; columns: taskDisplayedColumns;"></mat-row>
-        </mat-table> -->
-<!--   
-        <div *ngIf="!project.tasks || project.tasks.length === 0">No tasks available for this project.</div>
-      </mat-cell>
-    </ng-container> -->
-
-<!-- Project Table Header -->
-<!-- <mat-header-row *matHeaderRowDef="projectDisplayedColumns"></mat-header-row> -->
-<!-- Project Table Row -->
-<!-- <mat-row *matRowDef="let row; columns: projectDisplayedColumns;"></mat-row>
-  </mat-table> -->
-
-
-
-
-<!-- <div class="task-list-container">
-  <h2>Task Management</h2>
-
-  <div *ngIf="projects.length === 0">
-    <p>No tasks available.</p>
-  </div>
-
-  <ng-container *ngFor="let project of projects">
-    <h3>{{ project.name }}</h3>
-
-    <table mat-table [dataSource]="tasksGroupedByProject[project.id]"> -->
-<!-- Task Name Column -->
-<!-- <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Task Name </th>
-        <td mat-cell *matCellDef="let task"> {{ task.name }} </td>
-      </ng-container> -->
-
-<!-- Description Column -->
-<!-- <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> Description </th>
-        <td mat-cell *matCellDef="let task"> {{ task.description }} </td>
-      </ng-container> -->
-
-<!-- Due Date Column -->
-<!-- <ng-container matColumnDef="dueDate">
-        <th mat-header-cell *matHeaderCellDef> Due Date </th>
-        <td mat-cell *matCellDef="let task"> {{ task.dueDate | date }} </td>
-      </ng-container> -->
-
-<!-- Status Column -->
-<!-- <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let task"> {{ task.status }} </td>
-      </ng-container> -->
-
-<!-- Actions Column -->
-<!-- <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let task">
-          <button mat-raised-button color="primary" (click)="openTaskDialog(project.id, task)">
-            Edit
-          </button>
-          <button mat-raised-button color="warn" (click)="deleteTask(task.id, project.id)">
-            Delete
-          </button>
-        </td>
-      </ng-container> -->
-
-<!-- Header and Row Definitions -->
-<!-- <tr mat-header-row *matHeaderRowDef="['name', 'description', 'dueDate', 'status', 'actions']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'dueDate', 'status', 'actions']"></tr>
-    </table> -->
-
-<!-- <button mat-raised-button color="accent" (click)="openTaskDialog(project.id)">
-      Add New Task
-    </button>
-  </ng-container>
-</div> -->
-
-<!-- 
 <div class="task-list-container">
-  <button mat-raised-button color="primary" (click)="openTaskForm()">Add Task</button>
-  <mat-table [dataSource]="tasks" class="mat-elevation-z8">
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-      <mat-cell *matCellDef="let task">{{ task.name }}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-      <mat-cell *matCellDef="let task">{{ task.description }}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-      <mat-cell *matCellDef="let task">{{ task.status }}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-      <mat-cell *matCellDef="let task">
-        <button mat-button (click)="openTaskForm(task)">Edit</button>
-        <button mat-button color="warn" (click)="deleteTask(task.id!)">Delete</button>
-      </mat-cell>
-    </ng-container>
 
-    <mat-header-row *matHeaderRowDef="['name', 'description', 'status', 'actions']"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: ['name', 'description', 'status', 'actions'];"></mat-row>
-  </mat-table>
-</div> -->
-
-
-
-<!-- <div class="task-list-container"> -->
-<!-- Loop through each project -->
-<!-- <mat-accordion *ngFor="let project of projects" class="project-accordion">
-    <mat-expansion-panel> -->
-<!-- Project Header -->
-<!-- <mat-expansion-panel-header>
-        <mat-panel-title> -->
-<!-- Project name and number of tasks -->
-<!-- {{ project.name }} ({{ project.tasks?.length || 0 }} tasks)
-        </mat-panel-title>
-      </mat-expansion-panel-header> -->
-
-<!-- Task Table for Projects with Tasks -->
-<!-- <div *ngIf="project.tasks && project.tasks.length > 0; else noTasks">
-        <table mat-table [dataSource]="project.tasks" class="mat-elevation-z8"> -->
-
-<!-- Task ID Column -->
-<!-- <ng-container matColumnDef="taskId">
-            <th mat-header-cell *matHeaderCellDef> Task ID </th>
-            <td mat-cell *matCellDef="let task"> {{ task.id }} </td>
-          </ng-container> -->
-
-<!-- Task Name Column -->
-<!-- <ng-container matColumnDef="taskName">
-            <th mat-header-cell *matHeaderCellDef> Task Name </th>
-            <td mat-cell *matCellDef="let task"> {{ task.name }} </td>
-          </ng-container> -->
-
-<!-- Task Status Column -->
-<!-- <ng-container matColumnDef="taskStatus">
-            <th mat-header-cell *matHeaderCellDef> Status </th>
-            <td mat-cell *matCellDef="let task"> {{ task.status }} </td>
-          </ng-container> -->
-
-<!-- Actions Column -->
-<!-- <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> Actions </th>
-            <td mat-cell *matCellDef="let task">
-              <button mat-icon-button color="warn" (click)="deleteTask(project.id, task.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container> -->
-
-<!-- Table Header and Row Definitions -->
-<!-- <tr mat-header-row *matHeaderRowDef="['taskId', 'taskName', 'taskStatus', 'actions']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['taskId', 'taskName', 'taskStatus', 'actions'];"></tr>
-        </table>
-      </div> -->
-
-<!-- Template for No Tasks -->
-<!-- <ng-template #noTasks>
-        <mat-card>
-          <mat-card-content>No tasks available for this project.</mat-card-content>
-        </mat-card>
-      </ng-template> -->
-
-<!-- Button to Add a New Task -->
-<!-- <div class="actions">
-        <button mat-raised-button color="primary" (click)="openTaskForm(null, project.id)">
-          Add Task
-        </button>
-      </div>
-    </mat-expansion-panel>
-  </mat-accordion> -->
-
-<!-- Message when No Projects or Tasks are Available -->
-<!-- <div *ngIf="projects.length === 0" class="no-projects">
-    <mat-card>
-      <mat-card-content>
-        No projects or tasks available.
-      </mat-card-content>
-    </mat-card>
+  <div style="margin: 2%;" class="double-underline">
+    <mat-card-title>
+      <h1>{{title}}</h1>
+    </mat-card-title>
   </div>
-</div> -->
 
+  <!-- Add Task Button -->
+  <div class="add-task-button">
+    <button mat-raised-button color="primary" (click)="openFormDialog()">Add Task</button>
+  </div>
 
-<!-- <div *ngFor="let project of groupedTasks">
-  <h3>{{ project.projectName }}</h3> -->
-<!-- <mat-table [dataSource]="project.tasks" class="mat-elevation-z8"> -->
-<!-- Task Name Column -->
-<!-- <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let task"> {{ task.name }} </mat-cell>
-    </ng-container> -->
-
-<!-- Task Description Column -->
-<!-- <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-      <mat-cell *matCellDef="let task"> {{ task.description }} </mat-cell>
-    </ng-container> -->
-
-<!-- Task Due Date Column -->
-<!-- <ng-container matColumnDef="dueDate">
-      <mat-header-cell *matHeaderCellDef> Due Date </mat-header-cell>
-      <mat-cell *matCellDef="let task"> {{ task.dueDate | date }} </mat-cell>
-    </ng-container> -->
-
-<!-- Task Status Column -->
-<!-- <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-      <mat-cell *matCellDef="let task"> {{ task.status }} </mat-cell>
-    </ng-container> -->
-
-<!-- Edit and Delete Buttons -->
-<!-- <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-      <mat-cell *matCellDef="let task">
-        <button mat-button (click)="editTask(task)">Edit</button>
-        <button mat-button color="warn" (click)="deleteTask(task)">Delete</button>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-</div> -->
-
-
-<div>
-  <h2>Task List</h2>
-  <button mat-raised-button color="primary" (click)="openFormDialog()">Add Task</button>
-
-  <div *ngFor="let project of dataSource">
+  <!-- Loop through each project and display its tasks -->
+  <section *ngFor="let project of dataSource" class="project-section">
     <h3>{{ project.projectName }}</h3>
-    <table mat-table [dataSource]="project.tasks">
 
+    <table mat-table [dataSource]="project.tasks" class="task-table">
+
+      <!-- Task Name Column -->
       <ng-container matColumnDef="taskName">
         <th mat-header-cell *matHeaderCellDef> Task Name </th>
-        <td mat-cell *matCellDef="let task"> {{task.taskName}} </td>
+        <td mat-cell *matCellDef="let task"> {{ task.taskName }} </td>
       </ng-container>
 
+      <!-- Description Column -->
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef> Description </th>
-        <td mat-cell *matCellDef="let task"> {{task.description}} </td>
+        <td mat-cell *matCellDef="let task"> {{ task.description }} </td>
       </ng-container>
 
+      <!-- Due Date Column -->
       <ng-container matColumnDef="dueDate">
         <th mat-header-cell *matHeaderCellDef> Due Date </th>
-        <td mat-cell *matCellDef="let task"> {{task.dueDate | date}} </td>
+        <td mat-cell *matCellDef="let task"> {{ task.dueDate | date:'shortDate' }} </td>
       </ng-container>
 
+      <!-- Task Status Column -->
       <ng-container matColumnDef="taskStatus">
         <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let task"> {{task.taskStatus}} </td>
+        <td mat-cell *matCellDef="let task"> {{ task.taskStatus | titlecase }} </td>
       </ng-container>
 
+      <!-- Action Buttons Column -->
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let task">
-          <button mat-icon-button (click)="openFormDialog(task, project.projectId)">
+          <!-- Edit Task Button -->
+          <button mat-icon-button aria-label="Edit Task" (click)="openFormDialog(task, project.projectId)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="deleteTask(task.id, project.projectId)">
+
+          <!-- Delete Task Button -->
+          <button mat-icon-button aria-label="Delete Task" (click)="deleteTask(task.id, project.projectId)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
 
+      <!-- Table Header Row -->
       <tr mat-header-row *matHeaderRowDef="['taskName', 'description', 'dueDate', 'taskStatus', 'action']"></tr>
+
+      <!-- Table Data Rows -->
       <tr mat-row *matRowDef="let row; columns: ['taskName', 'description', 'dueDate', 'taskStatus', 'action'];"></tr>
+
     </table>
-  </div>
+  </section>
 </div>

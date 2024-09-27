@@ -17,17 +17,8 @@ export class ProjectService {
 
   }
 
-  // getAllProjects(): Observable<Project[]> {
-  //   return this.http.get<Project[]>(this.baseUrl);
-  // }
-
   getAllProjects(companyId: number): Observable<Project[]>{
     return this.http.get<Project[]>(`${this.baseUrl}/${companyId}/projects/list`);
-  }
-  
-  // Get projects with task IDs for a specific company
-  getProjectsWithTaskIds(companyId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/${companyId}/projects/listWithTaskIds`);
   }
 
   getProject(companyId: number, projectId: number):Observable<Project>{
@@ -50,19 +41,7 @@ export class ProjectService {
     return this.http.delete<void>(`${this.baseUrl}/${companyId}/projects/delete/${projectId}`).pipe(
       catchError(this.handleError)
     );    
-  }
-
-  // Fetch projects with tasks by company ID
-  getProjectsWithTasksByCompanyId(companyId: number): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.baseUrl}/${companyId}/projects/projects-tasks`);
-  }
-
-  // Fetch a project with task IDs for a specific company
-  getProjectWithTasks(companyId: number, projectId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${companyId}/projects/${projectId}`);
-  }
-
- 
+  } 
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';

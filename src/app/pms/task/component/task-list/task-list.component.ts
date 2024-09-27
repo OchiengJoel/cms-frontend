@@ -29,6 +29,7 @@ interface TaskWithProject {
 })
 export class TaskListComponent implements OnInit {
 
+  title: string;
   displayedColumns: string[] = ['taskName', 'description', 'dueDate', 'taskStatus', 'action'];
   dataSource: TaskWithProject[] = []; // Changed to store grouped data
   selectedCompanyId: number | null = null;
@@ -39,7 +40,10 @@ export class TaskListComponent implements OnInit {
     private taskService: TaskService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-  ) {}
+  ) {
+
+    this.title = `Task Management Module`
+  }
 
   ngOnInit(): void {
     this.companyService.getSelectedCompanyId().subscribe(id => {
