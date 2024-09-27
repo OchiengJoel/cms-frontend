@@ -10,7 +10,6 @@ export class CompanyService {
 
   //private baseUrl: string;
   //private selectedCompanyId = new BehaviorSubject<number | null>(null);
-
   private baseUrl: string;
   private readonly LOCAL_STORAGE_KEY = 'selectedCompanyId';
   private selectedCompanyId: BehaviorSubject<number | null>;

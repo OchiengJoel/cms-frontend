@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { Project } from '../model/project';
+import { Project} from '../model/project';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,17 @@ export class ProjectService {
 
   }
 
-  getProjects(companyId: number): Observable<Project[]>{
+  // getAllProjects(): Observable<Project[]> {
+  //   return this.http.get<Project[]>(this.baseUrl);
+  // }
+
+  getAllProjects(companyId: number): Observable<Project[]>{
     return this.http.get<Project[]>(`${this.baseUrl}/${companyId}/projects/list`);
+  }
+  
+  // Get projects with task IDs for a specific company
+  getProjectsWithTaskIds(companyId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${companyId}/projects/listWithTaskIds`);
   }
 
   getProject(companyId: number, projectId: number):Observable<Project>{
@@ -37,11 +46,23 @@ export class ProjectService {
     return this.http.delete<void>(`${this.baseUrl}/${companyId}/projects/delete/${projectId}`);
   }
 
-  deleteParcel(companyId:number, parcelId:number):Observable<void>{
-    return this.http.delete<void>(`${this.baseUrl}/${companyId}/parcels/delete/${parcelId}`).pipe(
+  deleteSelectedProject(companyId:number, projectId:number):Observable<void>{
+    return this.http.delete<void>(`${this.baseUrl}/${companyId}/projects/delete/${projectId}`).pipe(
       catchError(this.handleError)
     );    
   }
+
+  // Fetch projects with tasks by company ID
+  getProjectsWithTasksByCompanyId(companyId: number): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.baseUrl}/${companyId}/projects/projects-tasks`);
+  }
+
+  // Fetch a project with task IDs for a specific company
+  getProjectWithTasks(companyId: number, projectId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${companyId}/projects/${projectId}`);
+  }
+
+ 
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -52,4 +73,5 @@ export class ProjectService {
     }
     return throwError(errorMessage);
   }
+  
 }

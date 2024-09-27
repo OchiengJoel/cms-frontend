@@ -14,8 +14,10 @@ import { ProjectAddeditComponent } from '../project-addedit/project-addedit.comp
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css']
 })
-export class ProjectListComponent implements OnInit{
- 
+export class ProjectListComponent implements OnInit{ 
+
+  //dataSource2: MatTableDataSource<ProjectDTO> = new MatTableDataSource<ProjectDTO>([]);
+  //displayedColumns2: string[] = ["id","name","projectStatus", "action"];
   title: string;
   selectedCompanyId: number | null = null;
   displayedColumns: string[] = ["select","name","description","projectBudget","projectLocation","projectStartDate","projectEndDate","projectStatus", "action"];
@@ -23,43 +25,56 @@ export class ProjectListComponent implements OnInit{
   selection: Set<Project> = new Set<Project>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  startDate: Date | null = null;
-  endDate: Date | null = null;
+  startDate!: Date;
+  endDate!: Date 
+  isLoading: boolean = false;
+  projects: Project[] = [];
 
   constructor(
-
     private companyService: CompanyService,
     private projectService: ProjectService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar
 
-
   ){
     this.title = `Projects List`
   }
-
 
   ngOnInit(): void {
     this.companyService.getSelectedCompanyId().subscribe(id => {
       if (id !== null) {
         this.selectedCompanyId = id;
         this.fetchProjects();
+        //this.loadProjects();
       }
     });
   }
 
   fetchProjects(): void {
+    this.isLoading = true;
     if (this.selectedCompanyId !== null) {
-      this.projectService.getProjects(this.selectedCompanyId).subscribe(projects => {
+      this.projectService.getAllProjects(this.selectedCompanyId).subscribe(projects => {
         this.dataSource.data = projects;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.selection.clear();
+        this.isLoading = false;
       }, error => {
         this.snackBar.open(`Error fetching projects: ${error}`, 'Close', { duration: 6000 });
+        this.isLoading = false;
       });
     }
   }
+
+  // loadProjects(): void {
+  //   //const companyId = 1; // Replace with actual company ID
+  //   if (this.selectedCompanyId !== null) {
+  //   this.projectService.getProjectsWithTasksByCompanyId(this.selectedCompanyId).subscribe((projects: ProjectDTO[]) => {
+  //     this.dataSource2.data = projects;
+  //       this.isLoading = false;
+  //     }, error => {
+  //       this.snackBar.open(`Error fetching projects: ${error}`, 'Close', { duration: 6000 });
+  //       this.isLoading = false;
+  //     });
+  //   }
+  // }
 
 
   applyFilter(event: Event): void {
@@ -71,9 +86,19 @@ export class ProjectListComponent implements OnInit{
     }
   } 
 
+  filterByDateRange(): void {
+    if (this.startDate && this.endDate) {
+      this.dataSource.data = this.dataSource.data.filter(project => {
+        const projectStartDate = new Date(project.projectStartDate);
+        const projectEndDate = new Date(project.projectEndDate);
+        return projectStartDate >= this.startDate && projectEndDate <= this.endDate;
+      });
+    }
+  }
+
   openFormDialog(project?: Project): void {
     const dialogRef = this.dialog.open(ProjectAddeditComponent, {
-      width: '800px',
+      width: window.innerWidth < 600 ? '100%' : '800px',
       data: project
     });
 
@@ -132,6 +157,5 @@ export class ProjectListComponent implements OnInit{
   hasSelectedProjects(): boolean {
     return this.selection.size > 0;
   }
-
 
 }

@@ -49,26 +49,6 @@ export class ProjectAddeditComponent {
     }
   }
 
-  // onSubmit(): void {
-  //   if (this.projectForm.valid && this.selectedCompanyId !== null) {
-  //     const project: Project = this.projectForm.value;
-
-  //     const saveOrUpdate: Observable<Project> = this.isEditMode
-  //       ? this.projectService.updateProject(this.selectedCompanyId, project.id, project)
-  //       : this.projectService.createProject(this.selectedCompanyId, project);
-
-  //     saveOrUpdate.subscribe(
-  //       () => {
-  //         this.snackBar.open(this.isEditMode ? 'Project Updated Successfully' : 'New Project Added', 'Close', { duration: 4000 });
-  //         this.dialogRef.close(true);
-  //       },
-  //       error => {
-  //         this.snackBar.open(`Error: ${error}`, 'Close', { duration: 6000 });
-  //       }
-  //     );
-  //   }
-  // }
-
 
   onSubmit(): void {
     if (this.projectForm.valid && this.selectedCompanyId !== null) {
