@@ -30,6 +30,10 @@ export class BranchListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  private readonly CONFIRM_DELETE_MESSAGE = "Are you sure you want to delete the selected item?";
+  private readonly SUCCESS_DELETE_MESSAGE = 'Branch Deleted Successfully';
+  private readonly ERROR_DELETE_MESSAGE = 'Error deleting branch: ';
+
   constructor(
     private companyService: CompanyService,
     private branchService: BranchService,
@@ -55,7 +59,7 @@ export class BranchListComponent implements OnInit {
   //     this.dataSource.sort = this.sort;
   //   });
   // }
-  
+
 
   fetchBranches(): void {
     if (this.selectedCompanyId !== null) {
@@ -93,18 +97,18 @@ export class BranchListComponent implements OnInit {
   }
 
   deleteBranch(branchId: number): void {
-    if (this.selectedCompanyId !== null && window.confirm("Are you sure you want to delete the selected item?")) {
+    if (this.selectedCompanyId !== null && window.confirm(this.CONFIRM_DELETE_MESSAGE)) {
       this.branchService.deleteBranch(this.selectedCompanyId, branchId).subscribe(() => {
-        this.snackBar.open('Branch Deleted Successfully', 'Close', { duration: 4000 });
+        this.snackBar.open(this.SUCCESS_DELETE_MESSAGE, 'Close', { duration: 4000 });
         this.fetchBranches();
       }, error => {
-        this.snackBar.open(`Error deleting branch: ${error}`, 'Close', { duration: 6000 });
+        this.snackBar.open(`${this.ERROR_DELETE_MESSAGE}${error}`, 'Close', { duration: 6000 });
       });
     }
   }
 
   deleteSelectedBranches(): void {
-    if (this.selectedCompanyId !== null && this.hasSelectedBranches() && window.confirm("Are you sure you want to delete the selected items?")) {
+    if (this.selectedCompanyId !== null && this.hasSelectedBranches() && window.confirm(this.CONFIRM_DELETE_MESSAGE)) {
       const ids = Array.from(this.selection).map(branch => branch.id);
       this.branchService.deleteSelectedBranches(this.selectedCompanyId, ids).subscribe(() => {
         this.snackBar.open('Selected Branches Deleted Successfully', 'Close', { duration: 4000 });
@@ -143,7 +147,7 @@ export class BranchListComponent implements OnInit {
     return this.selection.size > 0;
   }
 
-  
+
 
   exportData(format: string): void {
     const dataToExport = this.dataSource.data.map(branch => ({
@@ -165,7 +169,7 @@ export class BranchListComponent implements OnInit {
         break;
     }
   }
- 
+
 
   exportAsExcel(data: any[]): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);

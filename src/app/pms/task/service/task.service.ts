@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, catchError, forkJoin, throwError } from 'rxjs';
 import { Task, } from '../model/task';
 
 
@@ -14,30 +14,45 @@ export class TaskService {
   constructor(private http: HttpClient) {}
 
   getAllTasks(projectId: number): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.baseUrl}/${projectId}/tasks`);
-  }
-
-
-  getTasks(projectId: number): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.baseUrl}/${projectId}/tasks`);
+    return this.http.get<Task[]>(`${this.baseUrl}/${projectId}/tasks`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getTask(projectId: number, taskId: number): Observable<Task> {
-    return this.http.get<Task>(`${this.baseUrl}/${projectId}/tasks/${taskId}`);
+    return this.http.get<Task>(`${this.baseUrl}/${projectId}/tasks/${taskId}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   createTask(projectId: number, task: Task): Observable<Task> {
-    return this.http.post<Task>(`${this.baseUrl}/${projectId}/tasks/create`, task);
+    return this.http.post<Task>(`${this.baseUrl}/${projectId}/tasks/create`, task).pipe(
+      catchError(this.handleError)
+    );
   }
 
   updateTask(projectId: number, taskId: number, task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.baseUrl}/${projectId}/tasks/update/${taskId}`, task);
+    return this.http.put<Task>(`${this.baseUrl}/${projectId}/tasks/update/${taskId}`, task).pipe(
+      catchError(this.handleError)
+    );
   }
 
   deleteTask(projectId: number, taskId: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${projectId}/tasks/${taskId}`);
+    return this.http.delete<void>(`${this.baseUrl}/${projectId}/tasks/${taskId}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Unknown error!';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
+  }
+}
 
 
   // private baseUrl = '/api/v1/projects'; // Adjust base URL as necessary
@@ -94,7 +109,7 @@ export class TaskService {
   // getTasksByIds1(companyId: number, projectId: number, taskIds: number[]): Observable<any[]> {
   //   return this.http.post<any[]>(`${this.baseUrl}/${companyId}/projects/${projectId}/tasks/listByIds`, taskIds);
   // }
-}
+
 
 //  // Get all tasks grouped by project
 //  getAllTasksGroupedByProject(): Observable<{ [key: number]: Task[] }> {

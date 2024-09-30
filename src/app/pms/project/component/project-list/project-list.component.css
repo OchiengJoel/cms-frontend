@@ -85,9 +85,16 @@ mat-card-content{
 
 .task-list-container h2 {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 500;
   color: #333;
   border-bottom: 3px double black; /* Adjust thickness and color as needed */
+}
+
+.task-list-container h1{
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 2px double black; /* Adjust thickness and color as needed */
 }
 
 /* Add Task Button */

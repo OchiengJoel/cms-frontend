@@ -13,16 +13,17 @@
     color: #333;
   }
 
-  h1{
+  .task-list-container h1{
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 500;
     color: #333;
-
-  }
-
-  .double-underline {
-    border-bottom: 3px double black; /* Adjust thickness and color as needed */
+    border-bottom: 2px double black; /* Adjust thickness and color as needed */
 }
+
+  
+
+  /* .double-underline {}
+     */
   
   /* Add Task Button */
   .add-task-button {

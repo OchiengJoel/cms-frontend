@@ -1,16 +1,14 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CompanyService } from 'src/app/company/service/company.service';
 import { ProjectService } from 'src/app/pms/project/service/project.service';
 import { TaskService } from '../../service/task.service';
-import { forkJoin, map, Observable } from 'rxjs';
-import { Project} from 'src/app/pms/project/model/project';
 import { TaskAddeditComponent } from '../task-addedit/task-addedit.component';
+import { Task } from '../../model/task';
+import { forkJoin, map, Subject, takeUntil } from 'rxjs';
 
-// Define an interface for Task with Project Info
 interface TaskWithProject {
   projectId: number;
   projectName: string;
@@ -18,7 +16,7 @@ interface TaskWithProject {
     taskName: string;
     description: string;
     dueDate: Date;
-    taskStatus: string; // Adjust based on your enum type
+    taskStatus: string;
   }[];
 }
 
@@ -27,12 +25,12 @@ interface TaskWithProject {
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css']
 })
-export class TaskListComponent implements OnInit {
-
-  title: string;
+export class TaskListComponent implements OnInit, OnDestroy {
+  title: string = 'Task Management Module';
   displayedColumns: string[] = ['taskName', 'description', 'dueDate', 'taskStatus', 'action'];
-  dataSource: TaskWithProject[] = []; // Changed to store grouped data
+  dataSource: TaskWithProject[] = [];
   selectedCompanyId: number | null = null;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private companyService: CompanyService,
@@ -40,13 +38,10 @@ export class TaskListComponent implements OnInit {
     private taskService: TaskService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-  ) {
-
-    this.title = `Task Management Module`
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.companyService.getSelectedCompanyId().subscribe(id => {
+    this.companyService.getSelectedCompanyId().pipe(takeUntil(this.unsubscribe$)).subscribe(id => {
       if (id !== null) {
         this.selectedCompanyId = id;
         this.loadProjectsWithTasks();
@@ -56,45 +51,43 @@ export class TaskListComponent implements OnInit {
 
   loadProjectsWithTasks(): void {
     if (this.selectedCompanyId !== null) {
-      this.projectService.getAllProjects(this.selectedCompanyId).subscribe(projects => {
-        const projectsWithTasks: TaskWithProject[] = [];
-        const projectRequests = projects.map(project => 
-          this.taskService.getAllTasks(project.id).toPromise().then(tasks => {
-            const projectData: TaskWithProject = {
-              projectId: project.id,
-              projectName: project.name,
-              tasks: tasks ? tasks.map(task => ({
-                taskName: task.name,
-                description: task.description,
-                dueDate: task.dueDate,
-                taskStatus: task.status
-              })) : [] // Ensure tasks is always an array
-            };
-            projectsWithTasks.push(projectData);
-          })
-        );
-  
-        Promise.all(projectRequests)
-          .then(() => {
-            this.dataSource = projectsWithTasks; // Updated to assign grouped data
-          })
-          .catch(error => {
-            console.error('Error fetching tasks:', error); // Log the full error object
-            this.snackBar.open(`Error fetching tasks: ${error.message || error}`, 'Close', { duration: 6000 });
-          });
-      }, error => {
-        console.error('Error fetching projects:', error); // Log the full error object
-        this.snackBar.open(`Error fetching projects: ${error.message || error}`, 'Close', { duration: 6000 });
-      });
+      this.projectService.getAllProjects(this.selectedCompanyId).pipe(takeUntil(this.unsubscribe$)).subscribe(
+        projects => {
+          const projectRequests = projects.map(project => 
+            this.taskService.getAllTasks(project.id).pipe(
+              takeUntil(this.unsubscribe$),
+              // Map to the desired structure
+              map(tasks => ({
+                projectId: project.id,
+                projectName: project.name,
+                tasks: tasks.map(task => ({
+                  taskName: task.name,
+                  description: task.description,
+                  dueDate: task.dueDate,
+                  taskStatus: task.status
+                }))
+              }))
+            )
+          );
+
+          forkJoin(projectRequests).subscribe(
+            projectsWithTasks => {
+              this.dataSource = projectsWithTasks;
+            },
+            error => this.handleError('Error fetching tasks', error)
+          );
+        },
+        error => this.handleError('Error fetching projects', error)
+      );
     }
   }
 
-  openFormDialog(task: any = null, projectId: number | null = null): void {
+  openFormDialog(task: Task | null = null, projectId: number | null = null): void {
     const dialogRef = this.dialog.open(TaskAddeditComponent, {
       data: { task, projectId },
       width: '500px'
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadProjectsWithTasks();
@@ -103,12 +96,23 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(taskId: number, projectId: number): void {
-    this.taskService.deleteTask(projectId, taskId).subscribe(() => {
-      this.snackBar.open('Task Deleted Successfully', 'Close', { duration: 4000 });
-      this.loadProjectsWithTasks();
-    }, error => {
-      this.snackBar.open(`Error deleting task: ${error}`, 'Close', { duration: 4000 });
-    });
+    this.taskService.deleteTask(projectId, taskId).subscribe(
+      () => {
+        this.snackBar.open('Task Deleted Successfully', 'Close', { duration: 4000 });
+        this.loadProjectsWithTasks();
+      },
+      error => this.snackBar.open(`Error deleting task: ${error}`, 'Close', { duration: 4000 })
+    );
+  }
+
+  private handleError(message: string, error: any): void {
+    console.error(message, error);
+    this.snackBar.open(`${message}: ${error.message || error}`, 'Close', { duration: 6000 });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
 

@@ -16,8 +16,6 @@ import { ProjectAddeditComponent } from '../project-addedit/project-addedit.comp
 })
 export class ProjectListComponent implements OnInit{ 
 
-  //dataSource2: MatTableDataSource<ProjectDTO> = new MatTableDataSource<ProjectDTO>([]);
-  //displayedColumns2: string[] = ["id","name","projectStatus", "action"];
   title: string;
   selectedCompanyId: number | null = null;
   displayedColumns: string[] = ["select","name","description","projectBudget","projectLocation","projectStartDate","projectEndDate","projectStatus", "action"];
@@ -50,16 +48,33 @@ export class ProjectListComponent implements OnInit{
     });
   }
 
+  // fetchProjects(): void {
+  //   this.isLoading = true;
+  //   if (this.selectedCompanyId !== null) {
+  //     this.projectService.getAllProjects(this.selectedCompanyId).subscribe(projects => {
+  //       this.dataSource.data = projects;
+  //       this.isLoading = false;
+  //     }, error => {
+  //       this.snackBar.open(`Error fetching projects: ${error}`, 'Close', { duration: 6000 });
+  //       this.isLoading = false;
+  //     });
+  //   }
+  // }
+
   fetchProjects(): void {
     this.isLoading = true;
     if (this.selectedCompanyId !== null) {
-      this.projectService.getAllProjects(this.selectedCompanyId).subscribe(projects => {
-        this.dataSource.data = projects;
-        this.isLoading = false;
-      }, error => {
-        this.snackBar.open(`Error fetching projects: ${error}`, 'Close', { duration: 6000 });
-        this.isLoading = false;
-      });
+      this.projectService.getAllProjects(this .selectedCompanyId).subscribe(
+        projects => {
+          this.dataSource.data = projects;
+          this.isLoading = false;
+          this.filterByDateRange(); // Filter after fetching projects
+        },
+        error => {
+          this.snackBar.open(`Error fetching projects: ${error}`);
+          this.isLoading = false;
+        }
+      );
     }
   }
 

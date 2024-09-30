@@ -27,16 +27,7 @@ export class ProjectAddeditComponent {
     @Inject(MAT_DIALOG_DATA) public data: Project
   ) {
     this.isEditMode = !!data;
-    this.projectForm = this.fb.group({
-      id: [''],
-      name: ['', Validators.required],
-      description: [''],
-      projectBudget: ['', Validators.required],
-      projectStatus: ['', Validators.required],
-      projectStartDate: ['', Validators.required],
-      projectEndDate: ['', Validators.required],
-      projectLocation: ['', Validators.required],
-    });
+    this.projectForm = this.initForm();    
   }
 
   ngOnInit(): void {
@@ -49,6 +40,49 @@ export class ProjectAddeditComponent {
     }
   }
 
+  initForm(): FormGroup {
+    return this.fb.group({
+      id: [''],
+      name: ['', Validators.required],
+      description: [''],
+      projectBudget: ['', [Validators.required, Validators.min(0)]],
+      projectStatus: ['', Validators.required],
+      projectStartDate: ['', Validators.required],
+      projectEndDate: ['', [Validators.required, this.endDateValidator.bind(this)]],
+      projectLocation: ['', Validators.required],
+    });
+  }
+
+  endDateValidator(control: any): { [key: string]: boolean } | null {
+    const startDate = this.projectForm?.get('projectStartDate')?.value;
+    if (startDate && new Date(control.value) < new Date(startDate)) {
+      return { invalidEndDate: true };
+    }
+    return null;
+  }
+
+
+  // onSubmit(): void {
+  //   if (this.projectForm.valid && this.selectedCompanyId !== null) {
+  //     const project: Project = this.projectForm.value;
+
+  //     const saveOrUpdate: Observable<Project> = this.isEditMode
+  //       ? this.projectService.updateProject(this.selectedCompanyId, project.id, project)
+  //       : this.projectService.createProject(this.selectedCompanyId, project);
+
+  //     saveOrUpdate.subscribe(
+  //       () => {
+  //         this.snackBar.open(this.isEditMode ? 'Project Updated Successfully' : 'New Project Added', 'Close', { duration: 4000 });
+  //         this.dialogRef.close(true);
+  //       },
+  //       error => {
+  //         this.snackBar.open(`Error: ${error}`, 'Close', { duration: 6000 });
+  //       }
+  //     );
+  //   } else {
+  //     this.snackBar.open('Form is invalid or company ID is not selected.', 'Close', { duration: 4000 });
+  //   }
+  // }
 
   onSubmit(): void {
     if (this.projectForm.valid && this.selectedCompanyId !== null) {
@@ -60,15 +94,15 @@ export class ProjectAddeditComponent {
 
       saveOrUpdate.subscribe(
         () => {
-          this.snackBar.open(this.isEditMode ? 'Project Updated Successfully' : 'New Project Added', 'Close', { duration: 4000 });
+          this.showSnackBar(this.isEditMode ? 'Project Updated Successfully' : 'New Project Added');
           this.dialogRef.close(true);
         },
         error => {
-          this.snackBar.open(`Error: ${error}`, 'Close', { duration: 6000 });
+          this.showSnackBar(`Error: ${error}`);
         }
       );
     } else {
-      this.snackBar.open('Form is invalid or company ID is not selected.', 'Close', { duration: 4000 });
+      this.showSnackBar('Form is invalid or company ID is not selected.');
     }
   }
 
@@ -77,6 +111,16 @@ export class ProjectAddeditComponent {
     if (control?.hasError('required')) {
       return 'This field is required';
     }
+    if (control?.hasError('min')) {
+      return 'Budget must be a positive number';
+    }
+    if (control?.hasError('invalidEndDate')) {
+      return 'End date must be after start date';
+    }
     return '';
+  }
+
+  private showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', { duration: 4000 });
   }
 }

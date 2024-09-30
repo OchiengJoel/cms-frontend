@@ -7,41 +7,39 @@ import { Project} from '../model/project';
   providedIn: 'root'
 })
 export class ProjectService {
+  private readonly baseUrl: string = 'http://localhost:8070/api/v1/company';
 
-  baseUrl: string;
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) {
-    this.baseUrl = 'http://localhost:8070/api/v1/company';
-
+  getAllProjects(companyId: number): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.baseUrl}/${companyId}/projects/list`).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  getAllProjects(companyId: number): Observable<Project[]>{
-    return this.http.get<Project[]>(`${this.baseUrl}/${companyId}/projects/list`);
+  getProject(companyId: number, projectId: number): Observable<Project> {
+    return this.http.get<Project>(`${this.baseUrl}/${companyId}/projects/${projectId}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  getProject(companyId: number, projectId: number):Observable<Project>{
-    return this.http.get<Project>(`${this.baseUrl}/${companyId}/projects/${projectId}`);
+  createProject(companyId: number, project: Project): Observable<Project> {
+    return this.http.post<Project>(`${this.baseUrl}/${companyId}/projects/create`, project).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  createProject(companyId: number, project: Project):Observable<Project>{
-    return this.http.post<Project>(`${this.baseUrl}/${companyId}/projects/create`, project);
+  updateProject(companyId: number, projectId: number, project: Project): Observable<Project> {
+    return this.http.put<Project>(`${this.baseUrl}/${companyId}/projects/update/${projectId}`, project).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  updateProject(companyId: number, projectId:number, project: Project):Observable<Project>{
-    return this.http.put<Project>(`${this.baseUrl}/${companyId}/projects/update/${projectId}`, project)
-  }
-
-  deleteProject(companyId: number, projectId:number): Observable<void>{
-    return this.http.delete<void>(`${this.baseUrl}/${companyId}/projects/delete/${projectId}`);
-  }
-
-  deleteSelectedProject(companyId:number, projectId:number):Observable<void>{
+  deleteProject(companyId: number, projectId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${companyId}/projects/delete/${projectId}`).pipe(
       catchError(this.handleError)
-    );    
-  } 
+    );
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -52,5 +50,5 @@ export class ProjectService {
     }
     return throwError(errorMessage);
   }
-  
+
 }

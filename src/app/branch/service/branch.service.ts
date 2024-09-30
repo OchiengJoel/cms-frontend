@@ -7,9 +7,7 @@ import { Branch, BranchDTO } from 'src/app/company/model/company';
   providedIn: 'root'
 })
 export class BranchService {
-
   baseUrl:string;
-
   constructor(
     private http: HttpClient
   ) { 
@@ -17,10 +15,7 @@ export class BranchService {
     this.baseUrl = 'http://localhost:8070/api/v1/company'
   }
 
-  // getAllBranches(companyId: number): Observable<BranchDTO[]>{
-  //   return this.http.get<BranchDTO[]>(`${this.baseUrl}/${companyId}/branches/list`);
 
-  // }
   getAllBranches(companyId: number): Observable<Branch[]> {
     return this.http.get<Branch[]>(`${this.baseUrl}/${companyId}/branches/list`).pipe(
       catchError(this.handleError)
@@ -43,15 +38,7 @@ export class BranchService {
     return this.http.put<Branch>(`${this.baseUrl}/${companyId}/branches/update/${branchId}`, branch).pipe(
       catchError(this.handleError)
     );
-  }
-
-  // updateBranch(companyId:number,branch:Branch):Observable<Branch>{
-  //   return this.http.put<Branch>(`${this.baseUrl}/${companyId}/branches/${branch.id}`, branch).pipe(
-  //     catchError(this.handleError)
-  //   );
-  // }
-
-  
+  }  
   deleteBranch(companyId: number, branchId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${companyId}/branches/delete/${branchId}`).pipe(
       catchError(this.handleError)
@@ -73,7 +60,4 @@ export class BranchService {
     }
     return throwError(errorMessage);
   }
-
-
-
 }

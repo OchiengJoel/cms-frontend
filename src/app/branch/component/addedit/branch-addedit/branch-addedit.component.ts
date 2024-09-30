@@ -19,6 +19,10 @@ export class BranchAddeditComponent implements OnInit {
   branchForm!: FormGroup;
   selectedCompanyId: number | null = null;
 
+  private readonly SUCCESS_UPDATE_MESSAGE = 'Branch Updated Successfully';
+  private readonly SUCCESS_CREATE_MESSAGE = 'New Branch Added';
+  private readonly ERROR_MESSAGE = 'Error: ';
+
   constructor(
     private companyService: CompanyService,
     private branchService: BranchService,
@@ -37,6 +41,15 @@ export class BranchAddeditComponent implements OnInit {
       }
     });
 
+    this.initForm();
+
+    if (this.data) {
+      this.branchForm.patchValue(this.data);
+    }
+  }
+
+
+  private initForm(): void {
     this.branchForm = this.fb.group({
       id: [''],
       branchCode: [''],
@@ -47,36 +60,50 @@ export class BranchAddeditComponent implements OnInit {
         location: ['', Validators.required]
       })
     });
-
-    if (this.data) {
-      this.branchForm.patchValue(this.data);
-    }
   }
+
+  // onSubmit(): void {
+  //   if (this.selectedCompanyId !== null && this.branchForm.valid) {
+  //     const branch = this.branchForm.value as Branch;
+
+  //     if (this.isEditMode) {
+  //       this.branchService.updateBranch(this.selectedCompanyId, branch.id, branch).subscribe(() => {
+  //         this.snackBar.open('Branch Updated Successfully', 'Close', { duration: 4000 });
+  //         this.dialogRef.close(true);
+  //       }, error => {
+  //         this.snackBar.open(`Error: ${error}`, 'Close', { duration: 6000 });
+  //       });
+  //     } else {
+  //       this.branchService.createBranch(this.selectedCompanyId, branch).subscribe(() => {
+  //         this.snackBar.open('New Branch Added', 'Close', { duration: 4000 });
+  //         this.dialogRef.close(true);
+  //       }, error => {
+  //         this.snackBar.open(`Error: ${error}`, 'Close', { duration: 6000 });
+  //       });
+  //     }
+  //   }
+  // }
 
   onSubmit(): void {
     if (this.selectedCompanyId !== null && this.branchForm.valid) {
       const branch = this.branchForm.value as Branch;
 
-      if (this.isEditMode) {
-        this.branchService.updateBranch(this.selectedCompanyId, branch.id, branch).subscribe(() => {
-          this.snackBar.open('Branch Updated Successfully', 'Close', { duration: 4000 });
-          this.dialogRef.close(true);
-        }, error => {
-          this.snackBar.open(`Error: ${error}`, 'Close', { duration: 6000 });
-        });
-      } else {
-        this.branchService.createBranch(this.selectedCompanyId, branch).subscribe(() => {
-          this.snackBar.open('New Branch Added', 'Close', { duration: 4000 });
-          this.dialogRef.close(true);
-        }, error => {
-          this.snackBar.open(`Error: ${error}`, 'Close', { duration: 6000 });
-        });
-      }
+      const request = this.isEditMode
+        ? this.branchService.updateBranch(this.selectedCompanyId, branch.id, branch)
+        : this.branchService.createBranch(this.selectedCompanyId, branch);
+
+      request.subscribe(() => {
+        this.snackBar.open(this.isEditMode ? this.SUCCESS_UPDATE_MESSAGE : this.SUCCESS_CREATE_MESSAGE, 'Close', { duration: 4000 });
+        this.dialogRef.close(true);
+      }, error => {
+        this.snackBar.open(`${this.ERROR_MESSAGE}${error}`, 'Close', { duration: 6000 });
+      });
     }
   }
 
+
   getErrorMessage(controlName: string, groupName?: string): string {
-    const control = groupName ? this.branchForm.get(groupName)?.get(controlName) : this.branchForm.get(controlName);
+    const control = this.getControl(controlName, groupName);
     if (control?.hasError('required')) {
       return 'You must enter a value';
     }
@@ -85,5 +112,10 @@ export class BranchAddeditComponent implements OnInit {
     }
     return '';
   }
+
+  private getControl(controlName: string, groupName?: string) {
+    return groupName ? this.branchForm.get(groupName)?.get(controlName) : this.branchForm.get(controlName);
+  }
+
 
 }
